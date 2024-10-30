@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Optimized Dork Generator</title>
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .input-section, .examples {
+            margin-top: 20px;
+        }
+        label, select, textarea {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        textarea {
+            height: 80px;
+            background-color: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 10px;
+        }
+        select, button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        select {
+            background-color: #444;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #output {
+            background-color: #333;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #555;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .examples ul {
+            padding-left: 20px;
+        }
+        .examples li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Optimized Dork Generator</h1>
+
+<div class="input-section">
+    <label for="prompt">Enter your search query:</label>
+    <textarea id="prompt" placeholder="e.g., Python programming book"></textarea>
+
+    <label for="searchType">Select search type:</label>
+    <select id="searchType">
+        <option value="custom">Custom Search</option>
+        <option value="recipes">Find Recipes for Specific Ingredients</option>
+        <option value="transitSchedules">Find Public Transit Schedules in PDF</option>
+        <option value="ebooks">Locate Free Ebooks on a Specific Topic</option>
+        <option value="manuals">Find User Manuals for Devices</option>
+        <option value="resumes">Find Sample Resumes for a Job Role</option>
+        <option value="publicMovies">Search for Public Domain Movies to Watch</option>
+        <option value="pptTemplates">Look for Free PowerPoint Templates</option>
+        <option value="musicDownloads">Locate Free Music Downloads</option>
+        <option value="taxForms">Find Official Forms or Applications</option>
+        <option value="events">Look Up Local Event Schedules</option>
+        <option value="lessonPlans">Find Curriculum or Lesson Plans for Teachers</option>
+        <option value="stockPhotos">Locate Free Stock Photos for a Blog</option>
+        <option value="projectSlides">Find PowerPoint Slides for School Projects</option>
+        <option value="reviews">Check for Product Reviews on Amazon</option>
+        <option value="pastExams">Find Past Exam Papers for Practice</option>
+        <option value="cheatSheets">Look for Cheat Sheets or Quick Guides</option>
+        <option value="newsArticles">Locate Specific News Articles by Publisher</option>
+        <option value="jobListings">Find Job Listings on a Specific Website</option>
+        <option value="weatherForecasts">Search for Weather Forecasts for Specific Dates</option>
+        <option value="researchPapers">Find Academic Research Papers on a Topic</option>
+    </select>
+
+    <label for="filetype">File type (optional):</label>
+    <select id="filetype">
+        <option value="">None</option>
+        <option value="pdf">PDF</option>
+        <option value="doc">DOC</option>
+        <option value="ppt">PPT</option>
+        <option value="txt">TXT</option>
+    </select>
+
+    <button onclick="generateDork()">Generate Dork</button>
+</div>
+
+<h2>Generated Dork:</h2>
+<div id="output"></div>
+
+<div class="examples">
+    <h2>Example Queries</h2>
+    <ul>
+        <li><strong>Find Recipes for Specific Ingredients:</strong> "chicken pasta" site:allrecipes.com</li>
+        <li><strong>Find Public Transit Schedules in PDF Format:</strong> filetype:pdf "New York bus schedule"</li>
+        <li><strong>Locate Free Ebooks on a Specific Topic:</strong> filetype:pdf "Python programming book"</li>
+        <li><strong>Find User Manuals for Devices:</strong> filetype:pdf "Samsung Galaxy S20 user manual"</li>
+        <li><strong>Find Sample Resumes for a Job Role:</strong> filetype:doc "data analyst resume"</li>
+        <!-- Add more examples as necessary -->
+    </ul>
+</div>
+
+<script>
+    function generateDork() {
+        const prompt = document.getElementById('prompt').value.trim();
+        const searchType = document.getElementById('searchType').value;
+        const filetype = document.getElementById('filetype').value;
+
+        if (!prompt) {
+            alert('Please enter a search query.');
+            return;
+        }
+
+        let dork = '';
+        
+        // Define default search templates based on the selected search type
+        switch (searchType) {
+            case 'recipes':
+                dork = `"${prompt}" site:allrecipes.com`;
+                break;
+            case 'transitSchedules':
+            case 'ebooks':
+            case 'manuals':
+            case 'pastExams':
+            case 'cheatSheets':
+            case 'lessonPlans':
+                dork = `filetype:pdf "${prompt}"`;
+                break;
+            case 'resumes':
+                dork = `filetype:doc "${prompt} resume"`;
+                break;
+            case 'publicMovies':
+                dork = `"${prompt}" site:archive.org`;
+                break;
+            case 'pptTemplates':
+            case 'projectSlides':
+                dork = `filetype:ppt "${prompt}"`;
+                break;
+            case 'musicDownloads':
+                dork = `intitle:"index of" "${prompt} mp3"`;
+                break;
+            case 'taxForms':
+                dork = `filetype:pdf "${prompt}" site:irs.gov`;
+                break;
+            case 'events':
+                dork = `"${prompt} schedule" site:cityname.gov`;
+                break;
+            case 'stockPhotos':
+                dork = `site:unsplash.com "${prompt}"`;
+                break;
+            case 'reviews':
+                dork = `site:amazon.com "${prompt} review"`;
+                break;
+            case 'newsArticles':
+                dork = `site:nytimes.com "${prompt}"`;
+                break;
+            case 'jobListings':
+                dork = `site:linkedin.com "${prompt} job"`;
+                break;
+            case 'weatherForecasts':
+                dork = `"${prompt}" site:weather.com`;
+                break;
+            case 'researchPapers':
+                dork = `filetype:pdf "${prompt} research paper"`;
+                break;
+            default:
+                dork = `intext:"${prompt}"`;
+        }
+
+        // Append the filetype if specified and if it’s not already part of the dork
+        if (filetype && !dork.includes(`filetype:${filetype}`)) {
+            dork += ` filetype:${filetype}`;
+        }
+
+        document.getElementById('output').textContent = dork;
+    }
+</script>
+
+</body>
+</html>
