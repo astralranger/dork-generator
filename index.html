@@ -3,7 +3,7 @@
 <head> 
     <meta charset="UTF-8"> 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-    <title>Dork Generator</title> 
+    <title>Modern Dork Generator</title> 
     <style> 
         body { 
             background-color: #f4f4f9; 
@@ -139,66 +139,77 @@
         </ul> 
     </div> 
     <script>
-        function generateDork() { 
-            const prompt = document.getElementById('prompt').value.trim(); 
-            const searchType = document.getElementById('searchType').value; 
-            const filetype = document.getElementById('filetype').value; 
-            if (!prompt) { 
-                alert('Please enter a search query.'); 
-                return; 
-            } 
-            let dork = ''; 
-            switch (searchType) { 
-                case 'recipes': 
-                    dork = `"${prompt}" site:allrecipes.com`; 
-                    break; 
-                case 'transitSchedules': case 'ebooks': case 'manuals': case 'pastExams': case 'cheatSheets': case 'lessonPlans': 
-                    dork = `filetype:pdf "${prompt}"`; 
-                    break; 
-                case 'resumes': 
-                    dork = `filetype:doc "${prompt} resume"`; 
-                    break; 
-                case 'publicMovies': 
-                    dork = `"${prompt}" site:archive.org`; 
-                    break; 
-                case 'pptTemplates': case 'projectSlides': 
-                    dork = `filetype:ppt "${prompt}"`; 
-                    break; 
-                case 'musicDownloads': 
-                    dork = `intitle:"index of" "${prompt} mp3"`; 
-                    break; 
-                case 'taxForms': 
-                    dork = `filetype:pdf "${prompt}" site:irs.gov`; 
-                    break; 
-                case 'events': 
-                    dork = `"${prompt} schedule" site:cityname.gov`; 
-                    break; 
-                case 'stockPhotos': 
-                    dork = `site:unsplash.com "${prompt}"`; 
-                    break; 
-                case 'reviews': 
-                    dork = `site:amazon.com "${prompt} review"`; 
-                    break; 
-                case 'newsArticles': 
-                    dork = `site:nytimes.com "${prompt}"`; 
-                    break; 
-                case 'jobListings': 
-                    dork = `site:linkedin.com "${prompt} job"`; 
-                    break; 
-                case 'weatherForecasts': 
-                    dork = `"${prompt}" site:weather.com`; 
-                    break; 
-                case 'researchPapers': 
-                    dork = `filetype:pdf "${prompt} research paper"`; 
-                    break; 
-                default: 
-                    dork = `intext:"${prompt}"`; 
-            } 
-            if (filetype && !dork.includes(`filetype:${filetype}`)) { 
-                dork += ` filetype:${filetype}`; 
-            } 
-            document.getElementById('output').textContent = dork; 
-        }
+
+
+function generateDork() { 
+    const prompt = document.getElementById('prompt').value.trim(); /* get search input */ 
+    const searchType = document.getElementById('searchType').value; /* get search type */ 
+    const filetype = document.getElementById('filetype').value; /* get selected file type */ 
+
+    if (!prompt) { 
+        alert('Please enter a search query.'); /* alert if no input */ 
+        return; 
+    } 
+
+    let dork = ''; 
+    switch (searchType) { 
+        case 'recipes': 
+            dork = `"${prompt}" site:allrecipes.com`; /* dork for recipes */ 
+            break; 
+        case 'transitSchedules': case 'ebooks': case 'manuals': case 'pastExams': case 'cheatSheets': case 'lessonPlans': 
+            dork = `filetype:pdf "${prompt}"`; /* dork for pdfs */ 
+            break; 
+        case 'resumes': 
+            dork = `filetype:doc "${prompt} resume"`; /* dork for resumes */ 
+            break; 
+        case 'publicMovies': 
+            dork = `"${prompt}" site:archive.org`; /* dork for public movies */ 
+            break; 
+        case 'pptTemplates': case 'projectSlides': 
+            dork = `filetype:ppt "${prompt}"`; /* dork for ppt files */ 
+            break; 
+        case 'musicDownloads': 
+            dork = `intitle:"index of" "${prompt} mp3"`; /* dork for music downloads */ 
+            break; 
+        case 'taxForms': 
+            dork = `filetype:pdf "${prompt}" site:irs.gov`; /* dork for tax forms */ 
+            break; 
+        case 'events': 
+            dork = `"${prompt} schedule" site:cityname.gov`; /* dork for events */ 
+            break; 
+        case 'reviews': 
+            dork = `site:amazon.com "${prompt} review"`; /* dork for reviews */ 
+            break; 
+        case 'newsArticles': 
+            dork = `site:nytimes.com "${prompt}"`; /* dork for news articles */ 
+            break; 
+        case 'jobListings': 
+            dork = `site:linkedin.com "${prompt} job"`; /* dork for job listings */ 
+            break; 
+        case 'weatherForecasts': 
+            dork = `"${prompt}" site:weather.com`; /* dork for weather forecasts */ 
+            break; 
+        case 'researchPapers': 
+            dork = `filetype:pdf "${prompt} research paper"`; /* dork for research papers */ 
+            break; 
+        default: 
+            dork = `intext:"${prompt}"`; /* default search */ 
+    } 
+
+    // if there's a filetype selected, replace previous filetypes if they exist
+    if (filetype) { 
+        const filetypeRegex = /filetype:[a-z]+/; /* regex to match existing filetypes */
+        if (dork.match(filetypeRegex)) { 
+            dork = dork.replace(filetypeRegex, `filetype:${filetype}`); /* replace existing filetype */ 
+        } else { 
+            dork += ` filetype:${filetype}`; /* append new filetype if not present */ 
+        } 
+    } 
+
+    document.getElementById('output').textContent = dork; /* display the dork */ 
+}
+
+
 
         function clearFields() { 
             document.getElementById('prompt').value = ''; 
